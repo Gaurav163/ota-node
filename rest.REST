@@ -1,0 +1,116 @@
+POST http://localhost:5000/user/signup HTTP/1.1
+content-type: application/json
+
+{
+    "name": "gaurav",
+    "email":"sarthakgutpta19@cse.iiitp.ac.in",
+    "password":"12345678"
+   
+}
+
+
+###
+POST http://localhost:5000/user/signin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "gouravlathwal63@gmail.com",
+    "password":"12345678"
+   
+}
+
+
+###
+GET  http://localhost:5000/user/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdvdXJhdmxhdGh3YWw2M0BnbWFpbC5jb20iLCJ2YWxpZHRpbGwiOjE2NDk3NDg1ODY0NzQsImlhdCI6MTY0NzE1NjU4Nn0.nOf5wupPcyDx6sARsHvXmOYu4ZP-17vwVBiZAS_PeyU HTTP/1.1
+
+
+###
+// every project name is unique 
+// you can create project with name of a existing project
+
+POST http://localhost:5000/project/create HTTP/1.1
+content-type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
+
+{
+    "name":"College"
+
+}
+
+###
+// to create table first need to create projects with api above.
+// inside a project table name be unique without space
+
+POST http://localhost:5000/project/table HTTP/1.1
+content-type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
+
+{
+    "name":"users",
+    "project":"College",
+    "schema":{
+        "username":{"type":"String","unique":true,"required":true},
+        "password":{"type":"String","required":true},
+        "phone":"Number",
+        "email":"String"
+    }
+}
+
+###
+
+//send api calls to student api 
+
+POST http://localhost:5000/api/College/users/signup HTTP/1.1
+content-type: application/json
+
+{
+    "username":"Gaurav",
+        "password":"12345678",
+        "phone":8569935212,
+        "email":"String"
+}
+
+###
+// get all data from a table
+GET http://localhost:5000/api/College/user/ HTTP/1.1
+
+### 
+//update request for object with particular _id
+
+PUT http://localhost:5000/api/School/student/622da8ccf0592cbb39133d29 HTTP/1.1
+content-type: application/json
+
+{
+    "name":"Gaurav Lathwal",
+    "phone":123456789,
+    "class":15,
+    "sectiorn":"CSE",
+    "roll_number":35
+}
+
+
+###
+DELETE  http://localhost:5000/api/School/student/622daa8dc8b601129bcb3fc2 HTTP/1.1
+content-type: application/json
+
+
+### 
+
+GET http://localhost:5000/project/apiauth/College HTTP/1.1
+content-type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
+
+###
+
+PUT http://localhost:5000/project/table HTTP/1.1
+content-type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
+
+{
+    "project":"College",
+    "name":"users",
+    "schema":{"name":"String","email":"String"}
+}
+
+
+
