@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "name": "gaurav",
-    "email":"sarthakgutpta19@cse.iiitp.ac.in",
+    "email":"gouravlathwal63@gmail.com",
     "password":"12345678"
    
 }
@@ -30,7 +30,7 @@ GET  http://localhost:5000/user/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJl
 
 POST http://localhost:5000/project/create HTTP/1.1
 content-type: application/json
-x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ4NzEwMzMxfQ.1FYiPjZaq2l67CZ7YD87tQDK_gcGs3ZIPbFNb-4xF0c
 
 {
     "name":"College"
@@ -46,11 +46,10 @@ content-type: application/json
 x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
 
 {
-    "name":"users",
+    "name":"user",
     "project":"College",
     "schema":{
         "username":{"type":"String","unique":true,"required":true},
-        "password":{"type":"String","required":true},
         "phone":"Number",
         "email":"String"
     }
@@ -60,12 +59,11 @@ x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haW
 
 //send api calls to student api 
 
-POST http://localhost:5000/api/College/users/signup HTTP/1.1
+POST http://localhost:5000/api/College/user HTTP/1.1
 content-type: application/json
 
 {
-    "username":"Gaurav",
-        "password":"12345678",
+    "username":"Gaurav1",
         "phone":8569935212,
         "email":"String"
 }
@@ -90,7 +88,7 @@ content-type: application/json
 
 
 ###
-DELETE  http://localhost:5000/api/School/student/622daa8dc8b601129bcb3fc2 HTTP/1.1
+DELETE  http://localhost:5000/api/College/user/624554072a19e8efc0d86ded HTTP/1.1
 content-type: application/json
 
 

@@ -59,6 +59,7 @@ router.route("/table").post(auth, async (req, res) => {
 })
     .put(auth, async (req, res) => {
         try {
+            console.log("wow");
             const project = await Project.findOne({ name: req.body.project });
             console.log(req.body);
             if (!project) {
@@ -67,7 +68,6 @@ router.route("/table").post(auth, async (req, res) => {
             if (project.owner != req.user.email) {
                 return res.status(403).json({ message: "Access not Allowed" });
             }
-
             const checktable = project.tables.find(table => table.name === req.body.name);
             if (!checktable) {
                 return res.status(400).json({ message: "Table not exist" });
@@ -75,13 +75,13 @@ router.route("/table").post(auth, async (req, res) => {
 
             const inputSchema = req.body.schema;
             if (project.apiAuth === true && req.body.name === "users") {
-
                 inputSchema.username = { type: "String", unique: true, required: true };
                 inputSchema.password = { type: "String", required: true };
-
             }
             console.log(inputSchema);
+
             const schema = JSON.stringify(inputSchema);
+
 
             await Project.updateOne({ _id: project._id, "tables._id": checktable._id }, { "$set": { "tables.$.schema": schema } });
 

@@ -15,7 +15,7 @@ router.route("/:project/users/signup").post(apiAuth, async (req, res) => {
 
 router.route("/:project/users/signin").post(apiAuth, async (req, res) => {
     try {
-
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Error Occured", error });
@@ -70,15 +70,11 @@ router.route("/:project/:table/:id")
 
 router.route("/:project/:table").post(createmodel, async (req, res) => {
     try {
-
         const Model = mongoose.models[req.table];
         const object = new Model(req.body);
         console.log(object);
         await object.save();
-
         res.status(200).json({ data: object });
-
-
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Error Occured", error });
