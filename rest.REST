@@ -73,6 +73,7 @@ content-type: application/json
 GET http://localhost:5000/api/College/user/ HTTP/1.1
 
 ### 
+
 //update request for object with particular _id
 
 PUT http://localhost:5000/api/School/student/622da8ccf0592cbb39133d29 HTTP/1.1
