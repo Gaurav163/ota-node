@@ -149,9 +149,8 @@ router.route("/apiauth/:project").get(auth, async (req, res) => {
     }
 })
 
-router.route("/:name").get(async (req, res) => {
+router.route("/:name").get(auth, async (req, res) => {
     try {
-        req.user = { email: "gouravlathwal63@gmail.com" };
         const project = await Project.findOne({ name: req.params.name });
         if (project) {
             if (project.owner === req.user.email) {
