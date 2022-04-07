@@ -27,6 +27,7 @@ router.route("/create").post(auth, async (req, res) => {
     }
 })
 
+
 router.route("/table").post(auth, async (req, res) => {
     try {
         const project = await Project.findOne({ name: req.body.project });
@@ -145,6 +146,26 @@ router.route("/apiauth/:project").get(auth, async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Error Occured", error: error.message });
+    }
+})
+
+router.route("/:name").get(async (req, res) => {
+    try {
+        req.user = { email: "gouravlathwal63@gmail.com" };
+        const project = await Project.findOne({ name: req.params.name });
+        if (project) {
+            if (project.owner === req.user.email) {
+                res.send(project);
+            } else {
+                res.status(403).send({ message: "Access Denied" });
+            }
+        } else {
+            res.status(400).send({ message: "Project name Invalid" });
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Error Occured" });
     }
 })
 
