@@ -12,7 +12,11 @@ module.exports = async (req, res, next) => {
         let tableName = "api_" + req.params.project + "_" + req.params.table;
 
         if (mongoose.models[tableName]) {
+            const table = project.tables.find(obj => obj.name == req.params.table);
             req.table = tableName;
+            req.tableinfo = table;
+            req.skey = project.key;
+            req.stoken = project.token;
             next();
         }
         else {
@@ -24,6 +28,9 @@ module.exports = async (req, res, next) => {
             });
             mongoose.model(tableName, tableschema);
             req.table = tableName;
+            req.tableinfo = table;
+            req.skey = project.key;
+            req.stoken = project.token;
             next();
         }
 

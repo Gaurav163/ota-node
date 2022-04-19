@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const Project = require("../models/project");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
+const User = require("../models/user");
 
 router.route("/create").post(auth, async (req, res) => {
     try {
@@ -17,9 +18,23 @@ router.route("/create").post(auth, async (req, res) => {
             project.token = crypto.randomBytes(32).toString("hex");
             project.key = crypto.randomBytes(12).toString("hex");
             const newproject = new Project(project);
+            const user = await User.findById(req.user.id);
+            user.projects.push(project.name);
             await newproject.save();
+            await user.save();
             res.status(200).json({ project: newproject });
         }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Error Occured" });
+    }
+})
+
+router.route("/projects").get(auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id, "projects -_id");
+        res.send(user);
 
     } catch (error) {
         console.log(error);
@@ -48,6 +63,7 @@ router.route("/table").post(auth, async (req, res) => {
         const table = {};
         table.name = req.body.name;
         table.schema = JSON.stringify(req.body.schema);
+
 
         project.tables.push(table);
         console.log(project);
@@ -99,6 +115,36 @@ router.route("/table").post(auth, async (req, res) => {
             res.status(500).json({ message: "Internal Error Occured", error });
         }
     })
+
+router.route("/secure/:project/:table").post(auth, async (req, res) => {
+    try {
+        const project = await Project.findOne({ name: req.params.project, "tables.name": req.params.table });
+        if (!project) {
+            return res.status(400).json({ message: "Project not exist" });
+        }
+        if (project.owner != req.user.email) {
+            return res.status(403).json({ message: "Access not Allowed" });
+        }
+        const data = {};
+        if (req.body.s_get && req.body.s_get > 0 && req.body.s_get <= 5) data.s_get = req.body.s_get;
+        if (req.body.s_post && req.body.s_post > 0 && req.body.s_post <= 5) data.s_post = req.body.s_post;
+        if (req.body.s_delete && req.body.s_delete > 0 && req.body.s_delete <= 5) data.s_delete = req.body.s_delete;
+        if (req.body.s_put && req.body.s_put > 0 && req.body.s_put <= 5) data.s_put = req.body.s_put;
+        if (req.body.s_getbyid && req.body.s_getbyid > 0 && req.body.s_getbyid <= 5) data.s_getbyid = req.body.s_getbyid;
+
+        project.tables.forEach(table => {
+            if (table.name === req.params.table) {
+                table.set(data);
+            }
+        })
+        await project.save();
+        res.send("Table Access updated");
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Error Occured", error: error.message });
+    }
+})
 
 router.route("/apiauth/:project").get(auth, async (req, res) => {
     try {

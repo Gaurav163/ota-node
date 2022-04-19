@@ -10,7 +10,7 @@ const userSchema = new schema(
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         verified: { type: Boolean, default: false },
-        apps: [String]
+        projects: [String]
 
     },
     { timestamps: true },
