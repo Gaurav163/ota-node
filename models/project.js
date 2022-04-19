@@ -28,8 +28,9 @@ const projectSchema = new schema(
         token: String,
         key: String,
         apiAuth: { type: Boolean, default: false },
+        s_auth: { type: Number, default: 1 },
         keySecure: { type: Boolean, default: true },
-        tables: [tableSchema]
+        tables: [tableSchema],
 
     },
     { timestamps: true },

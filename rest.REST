@@ -95,7 +95,7 @@ content-type: application/json
 
 ### 
 
-GET http://localhost:5000/project/apiauth/College HTTP/1.1
+GET http://localhost:5000/project/apiauth/college HTTP/1.1
 content-type: application/json
 x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
 
@@ -109,6 +109,26 @@ x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haW
     "project":"College",
     "name":"users",
     "schema":{"name":"String","email":"String"}
+}
+
+###
+
+POST http://localhost:5000/project/secureauth/college HTTP/1.1
+content-type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWUyN2ZmMTc4NmIzYjNiZmQ0MDU0MiIsIm5hbWUiOiJnYXVyYXYiLCJlbWFpbCI6ImdvdXJhdmxhdGh3YWw2M0BnbWFpbC5jb20iLCJpYXQiOjE2NTAzMzc5MDd9.aQIVNRFUj_9iwnjhYli1EHclD_T-m0s2TFPPWwcqeBQ
+
+{
+    "s_auth":2
+}
+
+###
+
+POST http://localhost:5000/project/secure/college/security-check HTTP/1.1
+content-type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWUyN2ZmMTc4NmIzYjNiZmQ0MDU0MiIsIm5hbWUiOiJnYXVyYXYiLCJlbWFpbCI6ImdvdXJhdmxhdGh3YWw2M0BnbWFpbC5jb20iLCJpYXQiOjE2NTAzMzc5MDd9.aQIVNRFUj_9iwnjhYli1EHclD_T-m0s2TFPPWwcqeBQ
+
+{
+    "s_delete":4
 }
 
 

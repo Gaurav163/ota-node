@@ -138,8 +138,31 @@ router.route("/secure/:project/:table").post(auth, async (req, res) => {
             }
         })
         await project.save();
-        res.send("Table Access updated");
+        res.send({ message: "Table Access updated", updates: data });
 
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Error Occured", error: error.message });
+    }
+})
+
+router.route("/secureauth/:project").post(auth, async (req, res) => {
+    try {
+        const project = await Project.findOne({ name: req.params.project });
+        if (!project) {
+            return res.status(400).json({ message: "Project not exist" });
+        }
+        if (project.owner != req.user.email) {
+            return res.status(403).json({ message: "Access not Allowed" });
+        }
+        let data = project.s_auth;
+        if (!project.apiAuth) {
+            return res.status(400).send({ message: "ApiAuth not Enalbled" });
+        }
+        if (req.body.s_auth && req.body.s_auth >= 1 && req.body.s_auth <= 3) data = req.body.s_auth;
+        project.s_auth = data;
+        await project.save();
+        res.send({ message: "Authentivation Api Access updated", updates: data });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Error Occured", error: error.message });
@@ -186,6 +209,7 @@ router.route("/apiauth/:project").get(auth, async (req, res) => {
             mongoose.models[tableName].schema = newSchema;
         }
         project.apiAuth = true;
+        project.s_auth = 3;
         await project.save();
         res.send({ message: "API Authentication Enabled for project " + project.name });
 
