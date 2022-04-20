@@ -42,6 +42,27 @@ router.route("/projects").get(auth, async (req, res) => {
     }
 })
 
+router.route("/generatekey/:project").get(auth, async (req, res) => {
+    try {
+        const project = await Project.findOne({ name: req.params.project });
+        if (!project) {
+            return res.status(400).json({ message: "Project not exist" });
+        }
+        if (project.owner != req.user.email) {
+            return res.status(403).json({ message: "Access not Allowed" });
+        }
+
+        const newkey = crypto.randomBytes(12).toString("hex");
+        project.key = newkey;
+        await project.save();
+        res.send(project);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Error Occured", error });
+    }
+})
+
 
 router.route("/table").post(auth, async (req, res) => {
     try {
@@ -217,6 +238,15 @@ router.route("/apiauth/:project").get(auth, async (req, res) => {
         project.apiAuth = true;
         project.s_auth = 2;
         await project.save();
+        project.tables.forEach(table => {
+            if (table.name === "users") {
+                if (table.s_getbyid < 4 && table.s_getbyid != 1) table.s_getbyid = 4;
+                if (table.s_put < 4 && table.s_put != 1) table.s_put = 4;
+                if (table.s_post < 4 && table.s_post != 1) table.s_post = 4;
+                if (table.s_delete < 4 && table.s_delete != 1) table.s_delete = 4;
+            }
+        })
+        await project.save();
         res.send({ message: "API Authentication Enabled for project " + project.name });
 
     } catch (error) {
@@ -240,6 +270,16 @@ router.route("/removeapiauth/:project").get(auth, async (req, res) => {
 
         project.apiAuth = false;
         project.s_auth = 1;
+        await project.save();
+        project.tables.forEach(table => {
+            if (table.name === "users") {
+                if (table.s_get >= 4) table.s_get = 3;
+                if (table.s_getbyid >= 4) table.s_getbyid = 3;
+                if (table.s_put >= 4) table.s_put = 3;
+                if (table.s_post >= 4) table.s_post = 3;
+                if (table.s_delete >= 4) table.s_delete = 3;
+            }
+        })
         await project.save();
         res.send({ message: "API Authentication Enabled for project " + project.name });
 
