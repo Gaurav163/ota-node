@@ -126,11 +126,17 @@ router.route("/secure/:project/:table").post(auth, async (req, res) => {
             return res.status(403).json({ message: "Access not Allowed" });
         }
         const data = {};
-        if (req.body.s_get && req.body.s_get > 0 && req.body.s_get <= 5) data.s_get = req.body.s_get;
-        if (req.body.s_post && req.body.s_post > 0 && req.body.s_post <= 5) data.s_post = req.body.s_post;
-        if (req.body.s_delete && req.body.s_delete > 0 && req.body.s_delete <= 5) data.s_delete = req.body.s_delete;
-        if (req.body.s_put && req.body.s_put > 0 && req.body.s_put <= 5) data.s_put = req.body.s_put;
-        if (req.body.s_getbyid && req.body.s_getbyid > 0 && req.body.s_getbyid <= 5) data.s_getbyid = req.body.s_getbyid;
+
+        if (req.body.s_get && req.body.s_get > 0 && req.body.s_get <= 5)
+            data.s_get = req.body.s_get;
+        if (req.body.s_post && req.body.s_post > 0 && req.body.s_post <= 5)
+            data.s_post = req.body.s_post;
+        if (req.body.s_delete && req.body.s_delete > 0 && req.body.s_delete <= 5)
+            data.s_delete = req.body.s_delete;
+        if (req.body.s_put && req.body.s_put > 0 && req.body.s_put <= 5)
+            data.s_put = req.body.s_put;
+        if (req.body.s_getbyid && req.body.s_getbyid > 0 && req.body.s_getbyid <= 5)
+            data.s_getbyid = req.body.s_getbyid;
 
         project.tables.forEach(table => {
             if (table.name === req.params.table) {
@@ -209,7 +215,31 @@ router.route("/apiauth/:project").get(auth, async (req, res) => {
             mongoose.models[tableName].schema = newSchema;
         }
         project.apiAuth = true;
-        project.s_auth = 3;
+        project.s_auth = 2;
+        await project.save();
+        res.send({ message: "API Authentication Enabled for project " + project.name });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Error Occured", error: error.message });
+    }
+})
+
+router.route("/removeapiauth/:project").get(auth, async (req, res) => {
+    try {
+        const project = await Project.findOne({ name: req.params.project });
+        if (!project) {
+            return res.status(400).json({ message: "Project not exist" });
+        }
+        if (project.owner != req.user.email) {
+            return res.status(403).json({ message: "Access not Allowed" });
+        }
+        if (project.apiAuth === false) {
+            return res.send({ message: "API Auth Already disabled for that project" });
+        }
+
+        project.apiAuth = false;
+        project.s_auth = 1;
         await project.save();
         res.send({ message: "API Authentication Enabled for project " + project.name });
 

@@ -11,7 +11,6 @@ const userSchema = new schema(
         password: { type: String, required: true },
         verified: { type: Boolean, default: false },
         projects: [String]
-
     },
     { timestamps: true },
 );

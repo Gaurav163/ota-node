@@ -95,9 +95,9 @@ content-type: application/json
 
 ### 
 
-GET http://localhost:5000/project/apiauth/college HTTP/1.1
+GET http://localhost:5000/project/apiauth/testapp HTTP/1.1
 content-type: application/json
-x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haWwiOiJnb3VyYXZsYXRod2FsNjNAZ21haWwuY29tIiwiaWF0IjoxNjQ3MTU3NTQ4fQ.U0-e4feVliUlLpFV06yZTqjxqAufpfSXYGdwmQ0U-I4
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWVlNTcyMDMwM2MyZTdiYTA3NjE1MSIsIm5hbWUiOiJHYXVyYXYiLCJlbWFpbCI6ImdsYW1iZ29AZ21haWwuY29tIiwiaWF0IjoxNjUwMzg2NDc3fQ.qK2b4yMauZDTiudiuqY1Rayuih0L1YnQ3LNcyDEh3LQ
 
 ###
 
@@ -115,7 +115,7 @@ x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZ2F1cmF2IiwiZW1haW
 
 POST http://localhost:5000/project/secureauth/college HTTP/1.1
 content-type: application/json
-x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWUyN2ZmMTc4NmIzYjNiZmQ0MDU0MiIsIm5hbWUiOiJnYXVyYXYiLCJlbWFpbCI6ImdvdXJhdmxhdGh3YWw2M0BnbWFpbC5jb20iLCJpYXQiOjE2NTAzMzc5MDd9.aQIVNRFUj_9iwnjhYli1EHclD_T-m0s2TFPPWwcqeBQ
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWVlNTcyMDMwM2MyZTdiYTA3NjE1MSIsIm5hbWUiOiJHYXVyYXYiLCJlbWFpbCI6ImdsYW1iZ29AZ21haWwuY29tIiwiaWF0IjoxNjUwMzg2NDc3fQ.qK2b4yMauZDTiudiuqY1Rayuih0L1YnQ3LNcyDEh3LQ
 
 {
     "s_auth":2
@@ -131,5 +131,35 @@ x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWUyN2ZmMTc4NmIzYj
     "s_delete":4
 }
 
+###
+
+POST http://localhost:5000/api/superapp/users?key=ffdc0c9ac353365a39e753e7 HTTP/1.1
+content-type: application/json
+
+{
+    "name":"Pp",
+    "phone":"556"
+}
+
+###
+GET http://localhost:5000/api/superapp/users?key=ffdc0c9ac353365a39e753e7 HTTP/1.1
+
+###
+DELETE http://localhost:5000/api/superapp/users/625ee72d5416a0fbe9fe63d2?key=ffdc0c9ac353365a39e753e7 HTTP/1.1
+content-type: application/json
+
+###
+
+PUT http://localhost:5000/api/superapp/users/625ee72d5416a0fbe9fe63d2?key=ffdc0c9ac353365a39e753e7 HTTP/1.1
+content-type: application/json
+
+###
+POST http://localhost:5000/project/secureauth/college HTTP/1.1
+content-type: application/json
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWUyN2ZmMTc4NmIzYjNiZmQ0MDU0MiIsIm5hbWUiOiJnYXVyYXYiLCJlbWFpbCI6ImdvdXJhdmxhdGh3YWw2M0BnbWFpbC5jb20iLCJpYXQiOjE2NTAzMzc5MDd9.aQIVNRFUj_9iwnjhYli1EHclD_T-m0s2TFPPWwcqeBQ
+
+{
+    "s_auth":2
+}
 
 

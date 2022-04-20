@@ -9,6 +9,10 @@ module.exports = async (req, res, next) => {
             return res.status(400).json({ message: "Invalid Api end point" });
         }
 
+        if (req.params.table === "users" && project.apiAuth) {
+            return res.status(400).json({ message: "Api Auth is enabled so this route is disabled" });
+        }
+
         let tableName = "api_" + req.params.project + "_" + req.params.table;
 
         if (mongoose.models[tableName]) {
@@ -17,6 +21,8 @@ module.exports = async (req, res, next) => {
             req.tableinfo = table;
             req.skey = project.key;
             req.stoken = project.token;
+            req.auth = project.apiAuth;
+            req.s_auth = project.s_auth;
             next();
         }
         else {
@@ -31,6 +37,8 @@ module.exports = async (req, res, next) => {
             req.tableinfo = table;
             req.skey = project.key;
             req.stoken = project.token;
+            req.auth = project.apiAuth;
+            req.s_auth = project.s_auth;
             next();
         }
 

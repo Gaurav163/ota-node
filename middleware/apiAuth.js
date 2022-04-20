@@ -6,21 +6,41 @@ module.exports = async (req, res, next) => {
     try {
         const project = await Project.findOne({ name: req.params.project, "tables.name": "users" });
         if (!project) {
-            return res.status(400).json({ message: "Invalid Api end point . Either table or project or both not exist" });
+            return res.status(400).json({ message: "Invalid Api end point" });
         }
 
-        let tableName = "api_" + req.params.project + "_" + req.params.table;
-        const table = project.tables.find(obj => obj.name == "users");
-        const schema = JSON.parse(table.schema);
-        
-        if (schema.username == demo.username && schema.password == demo.password) {
-
-            console.log(schema);
+        if (!project.apiAuth) {
+            return res.status(400).json({ message: "API Auth for this project is not enabled. Please Enable Api Auth to use this route." })
         }
-        res.send("wow");
 
+        let tableName = "api_" + req.params.project + "_users";
 
-
+        if (mongoose.models[tableName]) {
+            const table = project.tables.find(obj => obj.name == "users");
+            req.table = tableName;
+            req.tableinfo = table;
+            req.skey = project.key;
+            req.stoken = project.token;
+            req.auth = project.apiAuth;
+            req.s_auth = project.s_auth;
+            next();
+        }
+        else {
+            const table = project.tables.find(obj => obj.name == "users");
+            const schema = JSON.parse(table.schema);
+            const tableschema = new mongoose.Schema(
+                schema, {
+                timestamps: true
+            });
+            mongoose.model(tableName, tableschema);
+            req.table = tableName;
+            req.tableinfo = table;
+            req.skey = project.key;
+            req.stoken = project.token;
+            req.auth = project.apiAuth;
+            req.s_auth = project.s_auth;
+            next();
+        }
 
     } catch (error) {
         console.log(error);
