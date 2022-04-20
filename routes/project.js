@@ -168,7 +168,7 @@ router.route("/secureauth/:project").post(auth, async (req, res) => {
         if (req.body.s_auth && req.body.s_auth >= 1 && req.body.s_auth <= 3) data = req.body.s_auth;
         project.s_auth = data;
         await project.save();
-        res.send({ message: "Authentivation Api Access updated", updates: data });
+        res.send({ message: "Authentication Api Access updated", updates: data });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal Error Occured", error: error.message });
