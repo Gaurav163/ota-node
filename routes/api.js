@@ -79,7 +79,8 @@ router.route("/:project/users/all").get(apiAuth, async (req, res) => {
             }
         }
         const Model = mongoose.models[req.table];
-        const users = await Model.find({}, "-password -_id")
+        const users = await Model.find({}, "-password -_id");
+        res.send({ data: users });
 
     } catch (error) {
         console.log(error);
