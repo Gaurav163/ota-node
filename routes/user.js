@@ -36,16 +36,31 @@ router.route("/verify/:token").get(async (req, res) => {
     try {
         const data = jwt.verify(req.params.token, process.env.Email_Verify_Token);
         if (data.time < Date.now()) {
-            res.status(200).json({ message: "Link Expired" });
+            res.status(200).send("Link Expired");
         } else {
             const user = await User.findOne({ email: data.email });
             user.verified = true;
             await user.save();
-            res.status(200).json({ message: "Account Verified" });
+            res.send(`
+            <html>
+            <head>
+                <title>Verify Email</title>
+            </head>
+            <script>
+                setTimeout(()=>{
+                    window.location.replace("https://otapi.netlify.com/signin")
+                },3000);
+            </script>
+            <body>
+                <center>
+                    <h1>Email verified. Redirecting . . .</h1>
+                </center>
+            </body>
+            </html>`);
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Internal Error Occured", error });
+        res.status(500).send("Invalid Token");
     }
 })
 
