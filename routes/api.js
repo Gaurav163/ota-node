@@ -72,7 +72,7 @@ router.route("/:project/users/signin").post(apiAuth, async (req, res) => {
 
 router.route("/:project/users/all").get(apiAuth, async (req, res) => {
     try {
-        let access = req.tableinfo.s_getbyid;
+        let access = req.tableinfo.s_get;
         if (access === 5 || access == 3) {
             if (req.query.key !== req.skey) {
                 return res.status(400).send({ message: "Key id not provided or key Mismatched" });
