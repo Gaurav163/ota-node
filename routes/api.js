@@ -21,7 +21,7 @@ router.route("/:project/users/signup").post(apiAuth, async (req, res) => {
     try {
         let access = req.s_auth;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 3) {
             if (req.query.key !== req.skey) {
@@ -29,9 +29,10 @@ router.route("/:project/users/signup").post(apiAuth, async (req, res) => {
             }
         }
         const Model = mongoose.models[req.table];
-        const checkuser = await Model.findOne({ username: req.username });
-        if (checkuser) {
-            res.status(400).send({ message: "Username already user" });
+        const checkuser = await Model.findOne({ username: req.body.username });
+        console.log(checkuser);
+        if (checkuser && checkuser.username === req.body.username) {
+            return res.status(400).send({ message: "Username already user" });
         }
         const user = new Model(req.body);
         await user.save();
@@ -46,7 +47,7 @@ router.route("/:project/users/signin").post(apiAuth, async (req, res) => {
     try {
         let access = req.s_auth;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 3) {
             if (req.query.key !== req.skey) {
@@ -80,7 +81,7 @@ router.route("/:project/users/all").get(apiAuth, async (req, res) => {
     try {
         let access = req.tableinfo.s_get;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 5 || access == 3) {
             if (req.query.key !== req.skey) {
@@ -108,7 +109,7 @@ router.route("/:project/users/profile").get(apiAuth, async (req, res) => {
     try {
         let access = req.tableinfo.s_getbyid;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 5) {
             if (req.query.key !== req.skey) {
@@ -132,7 +133,7 @@ router.route("/:project/users/profile").get(apiAuth, async (req, res) => {
     try {
         let access = req.tableinfo.s_put;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 5) {
             if (req.query.key !== req.skey) {
@@ -158,7 +159,7 @@ router.route("/:project/users/profile").get(apiAuth, async (req, res) => {
     try {
         let access = req.tableinfo.s_delete;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 5) {
             if (req.query.key !== req.skey) {
@@ -188,7 +189,7 @@ router.route("/:project/:table/:id")
 
         let access = req.tableinfo.s_getbyid;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 3 || access === 5) {
             if (req.query.key !== req.skey) {
@@ -218,7 +219,7 @@ router.route("/:project/:table/:id")
         //secure 
         let access = req.tableinfo.s_delete;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 3 || access === 5) {
             if (req.query.key !== req.skey) {
@@ -252,7 +253,7 @@ router.route("/:project/:table/:id")
         //secure 
         let access = req.tableinfo.s_put;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 3 || access === 5) {
             if (req.query.key !== req.skey) {
@@ -291,7 +292,7 @@ router.route("/:project/:table").post(createmodel, async (req, res) => {
     //secure 
     let access = req.tableinfo.s_post;
     if (access === 1) {
-        res.status(400).send({ message: "Path disabled" });
+        return res.status(400).send({ message: "Path disabled" });
     }
     if (access === 3 || access === 5) {
         if (req.query.key !== req.skey) {
@@ -323,7 +324,7 @@ router.route("/:project/:table").post(createmodel, async (req, res) => {
         //secure 
         let access = req.tableinfo.s_get;
         if (access === 1) {
-            res.status(400).send({ message: "Path disabled" });
+            return res.status(400).send({ message: "Path disabled" });
         }
         if (access === 3 || access === 5) {
             if (req.query.key !== req.skey) {

@@ -1,0 +1,25 @@
+POST http://localhost:5000/api/superapp/users/signin HTTP/1.1
+content-type: application/json
+
+{
+    "username":"gaurav13",
+    "password":"123456780"
+}
+
+###
+GET http://localhost:5000/api/superapp/users HTTP/1.1
+x-auth-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNjEzMjUxMGFkM2Q5NTcxMGM4NGYzOSIsInVzZXJuYW1lIjoiZ2F1cmF2MTMiLCJpYXQiOjE2NTA1MzcxMTF9.Tu-E73E4-7z1AECEwXwKa0tax8oaQiGpY5SsDHP3ZVM
+
+
+###
+GET url HTTP/1.1
+
+###
+PUT url HTTP/1.1
+header name: header value
+
+{}
+
+
+###
+DELETE url HTTP/1.1
