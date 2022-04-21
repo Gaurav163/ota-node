@@ -273,13 +273,13 @@ router.route("/removeapiauth/:project").get(auth, async (req, res) => {
         project.s_auth = 1;
         await project.save();
         project.tables.forEach(table => {
-            if (table.name === "users") {
-                if (table.s_get >= 4) table.s_get = 3;
-                if (table.s_getbyid >= 4) table.s_getbyid = 3;
-                if (table.s_put >= 4) table.s_put = 3;
-                if (table.s_post >= 4) table.s_post = 3;
-                if (table.s_delete >= 4) table.s_delete = 3;
-            }
+
+            if (table.s_get >= 4) table.s_get = 3;
+            if (table.s_getbyid >= 4) table.s_getbyid = 3;
+            if (table.s_put >= 4) table.s_put = 3;
+            if (table.s_post >= 4) table.s_post = 3;
+            if (table.s_delete >= 4) table.s_delete = 3;
+
         })
         await project.save();
         res.send({ message: "API Authentication Enabled for project " + project.name });
