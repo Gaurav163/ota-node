@@ -130,6 +130,7 @@ router.route("/table").post(auth, async (req, res) => {
                 mongoose.models[tableName].schema = newSchema;
                 console.log(mongoose.models[tableName].schema);
             }
+            res.status(200).json({ project });
 
         } catch (error) {
             console.log(error);
