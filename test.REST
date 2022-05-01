@@ -1,10 +1,14 @@
-POST http://localhost:5000/api/superapp/users/signup HTTP/1.1
+POST https://ota-api.herokuapp.com/api/blogapp/users/signup HTTP/1.1
 content-type: application/json
+
+{
+    "username":""
+}
 
 
 
 ###
-GET http://localhost:5000/api/superapp/users/profile HTTP/1.1
+GET https://ota-api.herokuapp.com/api/blogapp/blogs HTTP/1.1
 
 
 ###

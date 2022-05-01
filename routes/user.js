@@ -71,9 +71,9 @@ router.route("/signin").post(async (req, res) => {
         if (!user) {
             res.status(400).json({ message: "Email Not Exits" });
         }
-        else if (!user.verified) {
-            res.status(401).json({ message: "Account Not Verified" });
-        }
+        // else if (!user.verified) {
+        //     res.status(401).json({ message: "Account Not Verified" });
+        // }
         else {
             if (User.comparePasswords(req.body.password, user.password)) {
                 const payload = {
