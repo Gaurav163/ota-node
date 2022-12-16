@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const uri = process.env.DATABASE_URI;
+const morgan = require('morgan');
 const cors = require("cors");
 app.use(cors());
 app.use(function (req, res, next) {
@@ -30,7 +31,7 @@ const cookieParser = require('cookie-parser')
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+app.use(morgan('tiny'));
 app.get("/", async (req, res) => {
     res.send("hello");
 })
